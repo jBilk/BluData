@@ -1,0 +1,47 @@
+﻿@model ContatosVirtual.Models.Usuario
+@{
+    var usuarioLogado = (int)Session["id"];
+    Layout = null;
+}
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Editar Perfil!</h5>
+        </div>
+        <form action="/Usuarios/EditarPerfilSalvar" method="post">
+            <div class="row">
+                <div class="col-md-10">
+                    <label for="nome.Usuario">*Nome Completo:</label>
+                    <input value="@ViewBag.Usuario.Nome" id="nomeUsuario" name="usuario.Nome" onkeypress="chamadaMascara(this, semNumeros);" onblur="verificarNomeMascara(this)" class="form-control" placeholder="Nome Completo*" required />
+                </div>
+                <div class="col-md-10">
+                    <label for="nomeUsuario.Usuario">*Usuário:</label>
+                    <input value="@ViewBag.Usuario.NomeUsuario" onkeypress="chamadaMascara(this, semEspaco);" id="nomeUsuarioUsuario" name="usuario.NomeUsuario" class="form-control" placeholder="Usuário*" required />
+                </div>
+                <div class="col-md-10">
+                    <label for="email.Usuario">*Email:</label>
+                    <input value="@ViewBag.Usuario.Email" id="emailUsuario" name="usuario.Email" class="form-control" placeholder="Email*" type="email" required />
+                </div>
+                <div class="col-md-10">
+                    <label for="senha.Usuario">*Senha:</label>
+                    <input type="password" name="usuario.Senha" id="senhaUsuario" class="form-control" maxlength="10" placeholder="Senha*" required />
+                    <small id="senhaUsuarioSmall" class="form-text text-muted">
+                        Sua senha deve ter entre 4 e 10 caracteres, os quais devem ser letras e números, sem espaços, caracteres especiais ou emojis.
+                    </small>
+                </div>
+
+                <input type="hidden" name="usuario.Id" id="inputId" value="@usuarioLogado" />
+                <input type="hidden" name="usuario.UsuarioEdicaoId" id="usuarioEdicaoIdUsuario" value="@usuarioLogado" />
+                <input type="hidden" name="usuario.DataHoraCadastro" id="dataHoraCadastroUsuario" value="@ViewBag.Usuario.DataHoraCadastro" />
+                <input type="hidden" name="usuario.UsuarioCadastroId" id="usuarioCadastroIdUsuario" value="@ViewBag.Usuario.UsuarioCadastroId" />
+                <input type="hidden" name="usuario.Permissao" id="permissaoUsuario" value="@ViewBag.Usuario.Permissao" />
+                <input type="hidden" name="usuario.Status" id="statusUsuario" value="@ViewBag.Usuario.Status" />
+
+            </div>
+            <div class="modal-footer">
+                <input class="btn btn-success" type="submit" value="Salvar" />
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+            </div>
+        </form>
+    </div>
+</div>

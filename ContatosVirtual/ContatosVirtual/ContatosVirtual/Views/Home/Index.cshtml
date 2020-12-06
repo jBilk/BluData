@@ -1,0 +1,96 @@
+﻿@{
+    string permissao = (string)Session["permissao"];
+}
+<title>Contatos Virtual - Principal</title>
+<div class="content-wrapper">
+    <div class="container-fluid">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="Home">Inicial</a>
+            </li>
+            <li class="breadcrumb-item active">Principal</li>
+        </ol>
+        <div class="row">
+            <div class="col-xl-3 col-sm-6 mb-3" id="nova-empresa">
+                <div class="card text-azul bg-primary o-hidden h-100">
+                    <div class="card-body">
+                        <div class="card-body-icon">
+                            <i class="fa fa-fw fa-bank"></i>
+                        </div>
+                        <div class="mr-5">Nova Empresa!</div>
+                    </div>
+                    <a class="card-footer text-azul clearfix small z-1">
+                        <span class="float-left">Cadastrar</span>
+                        <span class="float-right">
+                            <i class="fa fa-angle-right"></i>
+                        </span>
+                    </a>
+                </div>
+            </div>
+            <div class="modal fade mx-auto" id="adicionarEmpresa" data-keyboard="false" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+            </div>
+            <div class="col-xl-3 col-sm-6 mb-3" id="novo-fornecedor">
+                <div class="card text-vermelho bg-warning o-hidden h-100">
+                    <div class="card-body">
+                        <div class="card-body-icon">
+                            <i class="fa fa-fw fa-handshake-o"></i>
+                        </div>
+                        <div class="mr-5">Novo Fornecedor!</div>
+                    </div>
+                    <a class="card-footer text-vermelho clearfix small z-1">
+                        <span class="float-left">Cadastrar</span>
+                        <span class="float-right">
+                            <i class="fa fa-angle-right"></i>
+                        </span>
+                    </a>
+                </div>
+            </div>
+            <div class="modal fade mx-auto" id="adicionarFornecedor" data-keyboard="false" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+            </div>
+            @{ if (permissao.Equals("Administrador"))
+                {
+                    <div class="col-xl-3 col-sm-6 mb-3" id="novo-usuario">
+                        <div class="card text-verde bg-success o-hidden h-100">
+                            <div class="card-body">
+                                <div class="card-body-icon">
+                                    <i class="fa fa-fw fa-users"></i>
+                                </div>
+                                <div class="mr-5">Novo Usuário!</div>
+                            </div>
+                            <a class="card-footer text-verde clearfix small z-1">
+                                <span class="float-left">Cadastrar</span>
+                                <span class="float-right">
+                                    <i class="fa fa-angle-right"></i>
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="modal fade mx-auto" id="adicionarUsuario" data-keyboard="false" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+                    </div>
+                }
+            }
+            <div class="col-xl-3 col-sm-6 mb-3" id="editar-perfil">
+                <div class="card text-rosa bg-danger o-hidden h-100">
+                    <div class="card-body">
+                        <div class="card-body-icon">
+                            <i class="fa fa-fw fa-wrench"></i>
+                        </div>
+                        <div class="mr-5">Perfil!</div>
+                    </div>
+                    <a class="card-footer text-rosa clearfix small z-1">
+                        <span class="float-left">Acessar</span>
+                        <span class="float-right">
+                            <i class="fa fa-angle-right"></i>
+                        </span>
+                    </a>
+                </div>
+            </div>
+            <div class="modal fade mx-auto" id="perfilUsuario" data-keyboard="false" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+            </div>
+        </div>
+    </div>
+</div>

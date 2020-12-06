@@ -1,0 +1,62 @@
+﻿<title>Contatos Virtual - Fornecedores</title>
+<div class="content-wrapper">
+    <div class="container-fluid">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="Home">Inicial</a>
+            </li>
+            <li class="breadcrumb-item active">Fornecedores</li>
+        </ol>
+        <p>
+            <button class="btn btn-success" id="novo-fornecedor">
+                <i class="fa fa-plus fa-lg"></i> Adicionar Fornecedor
+            </button>
+        </p>
+    </div>
+    <div class="modal fade mx-auto" id="adicionarFornecedor" data-keyboard="false" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+    </div>
+    <div class="card mb-3">
+        <div class="card-header">
+            <i class="fa fa-bank"></i> Fornecedores
+            <span class="btn-group botoes" data-toggle="buttons-radio">
+                <button class="btn btn-success ativado">Ativado</button>
+                <button class="btn btn-danger desativado">Desativado</button>
+                <input type="hidden" id="fornecedorStatus" value="Ativado">
+            </span>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="tabelaFornecedores" width="1000" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Código</th>
+                            <th>Nome</th>
+                            <th>Empresa</th>
+                            <th>CPF/CNPJ</th>
+                            <th>Data Cadastro</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="modal fade" id="editarFornecedor" data-keyboard="false" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+        </div>
+        <div class="modal fade" id="editarTelefones" data-keyboard="false" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+        </div>
+        <div class="modal fade" id="visualizarFornecedor" data-keyboard="false" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+        </div>
+        <div class="modal fade" id="ativarFornecedor" data-keyboard="false" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+        </div>
+        <div class="modal fade" id="desativarFornecedor" data-keyboard="false" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+        </div>
+    </div>
+</div>

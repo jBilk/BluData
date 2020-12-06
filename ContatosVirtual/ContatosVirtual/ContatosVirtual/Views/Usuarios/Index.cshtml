@@ -1,0 +1,58 @@
+﻿<title>Contatos Virtual - Usuarios</title>
+<div class="content-wrapper">
+    <div class="container-fluid">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="Home">Inicial</a>
+            </li>
+            <li class="breadcrumb-item active">Usuarios</li>
+        </ol>
+        <p>
+            <button class="btn btn-success" id="novo-usuario">
+                <i class="fa fa-plus fa-lg"></i> Adicionar Usuário
+            </button>
+        </p>
+    </div>
+    <div class="modal fade mx-auto" id="adicionarUsuario" data-keyboard="false" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+    </div>
+    <div class="card mb-3">
+        <div class="card-header">
+            <i class="fa fa-bank"></i> Usuários
+            <span class="btn-group botoes" data-toggle="buttons-radio">
+                <button class="btn btn-success ativado">Ativado</button>
+                <button class="btn btn-danger desativado">Desativado</button>
+                <input type="hidden" id="usuarioStatus" value="Ativado">
+            </span>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="tabelaUsuarios" width="1000" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Código</th>
+                            <th>Nome</th>
+                            <th>Usuário</th>
+                            <th>Permissão</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="modal fade" id="editarUsuario" data-keyboard="false" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+        </div>
+        <div class="modal fade" id="visualizarUsuario" data-keyboard="false" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+        </div>
+        <div class="modal fade" id="ativarUsuario" data-keyboard="false" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+        </div>
+        <div class="modal fade" id="desativarUsuario" data-keyboard="false" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+        </div>
+    </div>
+</div>

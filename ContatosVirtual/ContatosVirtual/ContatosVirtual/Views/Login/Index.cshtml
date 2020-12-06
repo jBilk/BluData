@@ -1,0 +1,23 @@
+﻿@model ContatosVirtual.Models.Usuario
+@{
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+}
+<title>Contatos Virtual - Login</title>
+<div class="container" id="formLogin">
+    <div class="card card-login mx-auto mt-5">
+        <div class="card-header">Autenticar!</div>
+        <div class="card-body">
+            <div class="form-group">
+                <label for="nomeUsuario">Usuário/E-mail:</label>
+                <input type="text" name="nomeUsuario" id="nomeUsuario" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="senha">Senha:</label>
+                <input type="password" name="senha" id="senha" class="form-control" />
+            </div>
+            <button class="btn btn-primary btn-block" id="botaoLogin" onclick="verificarLogin()">Acessar</button>
+
+            <a href="/Login/Senha">Esqueci minha senha</a>
+        </div>
+    </div> 
+</div>

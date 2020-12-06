@@ -1,0 +1,19 @@
+﻿@{
+    Layout = null;
+}
+
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Excluir Telefone!</h5>
+        </div>
+        <div class="modal-body">Você deseja mesmo deletar esse número?</div>
+        <div class="modal-footer">
+            <form action="/Telefones/ExcluirConcluido" method="post">
+                <input type="hidden" name="id" id="inputId" />
+                <input class="btn btn-danger" type="submit" value="Excluir" />
+                <button class="btn btn-secondary" type="button" onclick="fecharModalExcluirTelefone()">Cancelar</button>
+            </form>
+        </div>
+    </div>
+</div>

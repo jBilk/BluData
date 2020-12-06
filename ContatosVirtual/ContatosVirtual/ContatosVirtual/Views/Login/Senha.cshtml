@@ -1,0 +1,17 @@
+﻿@model ContatosVirtual.Models.Usuario
+@{
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+}
+<title>Contatos Virtual - Senha</title>
+<div class="container">
+    <div class="card card-login mx-auto mt-5">
+        <div class="card-header">Recuperar Senha!</div>
+        <div class="card-body">
+            <div class="form-group">
+                <label for="email">Digite seu E-mail cadastrado:</label>
+                <input type="email" name="emailRecuperarSenha" id="emailRecuperarSenha" class="form-control" required/>
+            </div>
+            <button class="btn btn-primary btn-block" id="botaoSenha" onclick="novaSenha()">Enviar</button>
+        </div>
+    </div> 
+</div>

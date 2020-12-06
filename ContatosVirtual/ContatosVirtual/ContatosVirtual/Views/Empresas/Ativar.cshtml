@@ -1,0 +1,22 @@
+﻿@model ContatosVirtual.Models.Empresa
+@{
+    var usuarioLogado = (int)Session["id"];
+    Layout = null;
+}
+
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Ativar Empresa!</h5>
+        </div>
+        <form action="/Empresas/AtivarConcluido" method="post">
+            <div class="modal-body">Você deseja mesmo ativar essa empresa?</div>
+            <div class="modal-footer">
+                <input type="hidden" name="empresa.Id" id="inputId" value="" />
+                <input type="hidden" name="empresa.UsuarioEdicaoId" id="usuarioEdicaoIdEmpresa" value="@usuarioLogado"/>
+                <input class="btn btn-success" type="submit" value="Ativar" />
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+            </div>
+        </form>
+    </div>
+</div>

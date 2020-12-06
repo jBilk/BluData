@@ -1,0 +1,40 @@
+﻿@model ContatosVirtual.Models.Usuario
+@{
+    var usuarioLogado = (int)Session["id"];
+    Layout = null;
+}
+
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Cadastrar Usuário!</h5>
+        </div>        
+        <form action="/Usuarios/Adiciona" method="post">
+            <div class="col-md-10">
+                <label for="nome.Usuario">*Nome Completo:</label>
+                <input id="nomeUsuario" name="usuario.Nome" onkeypress="chamadaMascara(this, semNumeros);" onblur="verificarNomeMascara(this)" class="form-control" placeholder="Nome Completo*" required />
+            </div>
+            <div class="col-md-10">
+                <label for="nomeUsuario.Usuario">*Usuário:</label>
+                <input id="nomeUsuarioUsuario" name="usuario.NomeUsuario" onkeypress="chamadaMascara(this, semEspaco);" class="form-control" placeholder="Usuário*" required />
+            </div>
+            <div class="col-md-10">
+                <label for="email.Usuario">*Email:</label>
+                <input id="emailUsuario" name="usuario.Email" class="form-control" placeholder="Email*" type="email" required />
+            </div>
+            <div class="col-lg-10 form-group">
+                <label for="usuario.Permissao">*Permissão:</label>
+                <select id="permissao.Usuario" name="usuario.Permissao" class="form-control" placeholder="Permissão*" required>
+                    <option value="Administrador">Administrador</option>
+                    <option value="Usuario">Usuario</option>
+                </select>
+            </div>
+            <div class="modal-footer">
+                <input type="hidden" name="usuario.Id" id="inputId" value="0" />
+                <input type="hidden" name="usuario.UsuarioCadastroId" id="usuarioCadastroId.Usuario" value="@usuarioLogado" />
+                <input class="btn btn-success" type="submit" value="Cadastrar" />
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+            </div>
+        </form>
+    </div>
+</div>

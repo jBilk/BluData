@@ -1,0 +1,71 @@
+﻿@model ContatosVirtual.Models.Empresa
+@{
+    var usuarioLogado = (int)Session["id"];
+    Layout = null;
+}
+<div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Editar Empresa!</h5>
+        </div>
+        <form action="/Empresas/EditarSalvar" method="post">
+            <div class="row">
+                <div class="col-lg-3 form-group">
+                    <label for="Empresa.Nome">Nome Fantasia:</label>
+                    <input value="@ViewBag.Empresa.NomeFantasia" name="Empresa.NomeFantasia" id="nomeFantasiaEmpresa" onblur="verificarNomeMascara(this)" class="form-control" placeholder="Nome Fantasia*" type="text" required>
+                </div>
+                <div class="col-lg-3 form-group">
+                    <label for="Empresa.Cnpj">Cnpj:</label>
+                    <input value="@ViewBag.Empresa.Cnpj" name="Empresa.Cnpj" onkeypress="chamadaMascara(this, numeroCpfCnpj);" onblur="verificarInformacoes(this)" type="text" id="cnpjEmpresa" class="form-control" maxlength="18" placeholder="Cnpj* Somente numeros" required>
+                </div>
+            </div>
+            <hr class="star-primary">
+            <div class="row">
+                <div class="col-lg-3 form-group">
+                    <label for="Empresa.Cep">Cep:</label>
+                    <input value="@ViewBag.Empresa.Cep" name="Empresa.Cep" id="cepEmpresa" type="text" class="form-control" placeholder="CEP" maxlength="9" pattern="/[0-9]{5}\[0-9]{3}$/" title="Cep inválido!" OnKeyPress="formatar('#####-###', this)">
+                </div>
+                <div class="col-lg-3 form-group">
+                    <label for="Empresa.Endereco">Endereço:</label>
+                    <input value="@ViewBag.Empresa.Endereco" name="Empresa.Endereco" id="enderecoEmpresa" type="text" class="form-control" placeholder="Endereço">
+                </div>
+                <div class="col-lg-3 form-group">
+                    <label for="Empresa.Numero">Numero:</label>
+                    <input value="@ViewBag.Empresa.Numero" name="Empresa.Numero" id="numeroEmpresa" type="text" class="form-control" placeholder="Numero" onkeypress="if (!isNaN(String.fromCharCode(window.event.keyCode))) return true; else return false;" />
+                </div>
+                <div class="col-lg-3 form-group">
+                    <label for="Empresa.Complemento">Complemento:</label>
+                    <input value="@ViewBag.Empresa.Complemento" name="Empresa.Complemento" id="complementoEmpresa" type="text" class="form-control" placeholder="Complemento" />
+                </div>
+                <div class="col-lg-3 form-group">
+                    <label for="Empresa.Bairro">Bairro:</label>
+                    <input value="@ViewBag.Empresa.Bairro" name="Empresa.Bairro" id="bairroEmpresa" type="text" class="form-control" placeholder="Bairro">
+                </div>
+                <div class="col-lg-3 form-group">
+                    <label for="Empresa.EstadoSigla">Uf*:</label>
+                    <select value="@ViewBag.Empresa.EstadoSigla" name="Empresa.EstadoSigla" id="ufEmpresa" class="form-control" placeholder="Uf*" required>
+                        <option value="" placeholder="Uf*"></option>
+                        @foreach (var estado in ViewBag.Estados)
+                        {
+                            <option value="@estado.Sigla" selected="@estado.Sigla.Equals(ViewBag.Empresa.EstadoSigla)">@estado.NomeEstado</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-lg-3 form-group">
+                    <label for="Empresa.Cidade">Cidade:</label>
+                    <input value="@ViewBag.Empresa.Cidade" name="Empresa.Cidade" id="cidadeEmpresa" type="text" class="form-control" placeholder="Cidade" />
+                </div>
+
+                <input value="@ViewBag.Empresa.Status" name="Empresa.Status" id="statusEmpresa" type="hidden" />
+                <input value="@ViewBag.Empresa.DataHoraCadastro" name="Empresa.DataHoraCadastro" id="dataHoraCadastroEmpresa" type="hidden" />
+                <input value="@ViewBag.Empresa.UsuarioCadastroId" name="Empresa.UsuarioCadastroId" id="usuarioCadastroIdEmpresa" type="hidden" />
+            </div>
+            <div class="modal-footer">
+                <input type="hidden" name="empresa.Id" id="inputId" value="" />
+                <input type="hidden" name="empresa.UsuarioEdicaoId" id="usuarioEdicaoIdEmpresa" value="@usuarioLogado"/>
+                <button class="btn btn-success" onclick="editarEmpresa()">Salvar</button>
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+            </div>
+        </form>
+    </div>
+</div>

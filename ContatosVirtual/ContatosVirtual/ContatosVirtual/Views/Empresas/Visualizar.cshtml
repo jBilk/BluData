@@ -1,0 +1,63 @@
+﻿@model ContatosVirtual.Models.Empresa
+@{
+    Layout = null;
+}
+<div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Visualizar Empresa!</h5>
+        </div>
+        <form action="/Empresas/Vizualizar" method="post">
+            <div class="row">
+                <div class="col-lg-3 form-group">
+                    <label for="Empresa.Nome">Nome Fantasia:</label>
+                    <input disabled value="@ViewBag.Empresa.NomeFantasia" name="Empresa.NomeFantasia" id="nomeFantasia.Empresa" class="form-control" type="text">
+                </div>
+                <div class="col-lg-3 form-group">
+                    <label for="Empresa.Cnpj">Cnpj:</label>
+                    <input disabled value="@ViewBag.Empresa.Cnpj" name="Empresa.Cnpj" type="text" id="cnpj.Empresa" class="form-control" placeholder="Cnpj*">
+                </div>
+            </div>
+            <hr class="star-primary">
+            <div class="row">
+                <div class="col-lg-3 form-group">
+                    <label for="Empresa.Cep">Cep:</label>
+                    <input disabled value="@ViewBag.Empresa.Cep" name="Empresa.Cep" id="cepEmpresa" type="text" class="form-control" placeholder="CEP">
+                </div>
+                <div class="col-lg-3 form-group">
+                    <label for="Empresa.Endereco">Endereço:</label>
+                    <input disabled value="@ViewBag.Empresa.Endereco" name="Empresa.Endereco" id="enderecoEmpresa" type="text" class="form-control" placeholder="Endereço">
+                </div>
+                <div class="col-lg-3 form-group">
+                    <label for="Empresa.Numero">Numero:</label>
+                    <input disabled value="@ViewBag.Empresa.Numero" name="Empresa.Numero" id="numeroEmpresa" type="text" class="form-control" placeholder="Numero" onkeypress="if (!isNaN(String.fromCharCode(window.event.keyCode))) return true; else return false;" />
+                </div>
+                <div class="col-lg-3 form-group">
+                    <label for="Empresa.Complemento">Complemento:</label>
+                    <input disabled value="@ViewBag.Empresa.Complemento" name="Empresa.Complemento" id="complementoEmpresa" type="text" class="form-control" placeholder="Complemento" />
+                </div>
+                <div class="col-lg-3 form-group">
+                    <label for="Empresa.Bairro">Bairro:</label>
+                    <input disabled value="@ViewBag.Empresa.Bairro" name="Empresa.Bairro" id="bairroEmpresa" type="text" class="form-control" placeholder="Bairro">
+                </div>
+                <div class="col-lg-3 form-group">
+                    <label for="Empresa.Estado">Uf*:</label>
+                    <select disabled value="@ViewBag.Empresa.EstadoSigla" name="Empresa.EstadoSigla" id="ufEmpresa" class="form-control" placeholder="Uf*">                        
+                        @foreach (var estado in ViewBag.Estados)
+                        {
+                            <option value="@estado.Id" selected="@estado.Id.Equals(ViewBag.Empresa.EstadoId)">@estado.NomeEstado</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-lg-3 form-group">
+                    <label for="Empresa.Cidade">Cidade:</label>
+                    <input disabled value="@ViewBag.Empresa.Cidade" name="Empresa.Cidade" id="cidadeEmpresa" type="text" class="form-control" placeholder="Cidade">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <input type="hidden" name="Empresa.Id" id="inputId" value="" />
+                <button class="btn btn-success" type="button" data-dismiss="modal">Fechar</button>
+            </div>
+        </form>
+    </div>
+</div>

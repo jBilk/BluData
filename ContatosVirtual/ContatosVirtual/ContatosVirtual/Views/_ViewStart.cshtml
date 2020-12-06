@@ -1,0 +1,15 @@
+﻿
+@{
+    object usuario = Session["usuarioLogado"];
+    object permissao = Session["permissao"];
+    string result = Convert.ToString(permissao);
+    if (usuario == null || result.Equals("Administrador"))
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_LayoutUsuario.cshtml";
+    }
+
+}

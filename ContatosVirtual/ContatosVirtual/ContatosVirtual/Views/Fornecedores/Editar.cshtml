@@ -1,0 +1,115 @@
+﻿@model ContatosVirtual.Models.Fornecedor
+@{
+    var usuarioLogado = (int)Session["id"];
+    Layout = null;
+}
+<div class="modal-dialog modal-lg" role="document" tabindex="-1">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Editar Fornecedor!</h5>
+        </div>
+        <div class="modal-body">
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link" id="abaPanelFornecedor" data-toggle="tab" href="#cadastroFornecedorPanel" role="tab" aria-controls="cadastro">Cadastro</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="abaPanelTelefone" data-toggle="tab" href="#telefonePanel" role="tab" aria-controls="telefone">Telefone</a>
+                </li>
+            </ul>
+
+            <div class="tab-content">
+                <div class="tab-pane active" id="cadastroFornecedorPanel" role="tabpanel">
+                    <form action="/Fornecedores/Editar" method="post" id="formFornecedores">
+                        <div class="row">
+                            <div class="col-lg-3 form-group">
+                                <label for="Fornecedor.PessoaJuridicaFisica">Tipo de Fornecedor*:</label>
+                                <div class="form-check">
+                                    <input class="form-check-input col-lg-3" onclick="visualizarTipoPessoa()" type="radio" name="Fornecedor.PessoaJuridicaFisica" id="pessoaJuridica" value="Juridica" @(ViewBag.Fornecedor.PessoaJuridicaFisica == "Juridica" ? "checked=\"checked\"" : "")>
+                                    <label class="form-check-label" for="pessoaJuridica">Pessoa Jurídica</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input col-lg-3" onclick="visualizarTipoPessoa()" type="radio" name="Fornecedor.PessoaJuridicaFisica" id="pessoaFisica" value="Fisica" @(ViewBag.Fornecedor.PessoaJuridicaFisica == "Fisica" ? "checked=\"checked\"" : "")>
+                                    <label class="form-check-label" for="pessoaFisica">Pessoa Física</label>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 form-group">
+                                <label for="Fornecedor.CpfCnpj">Cpf/Cnpj*:</label>
+                                <input value="@ViewBag.Fornecedor.CpfCnpj" name="Fornecedor.CpfCnpj" id="cpfCnpjFornecedor" onkeypress="chamadaMascara(this, numeroCpfCnpj);" onblur="verificarInformacoes(this)" maxlength="18" class="form-control" placeholder="Cpf/Cnpj*" required>
+                            </div>
+                            <div class="col-lg-3 form-group">
+                                <label for="Fornecedor.Nome">Nome*:</label>
+                                <input value="@ViewBag.Fornecedor.Nome" name="Fornecedor.Nome" id="nome.Fornecedor" class="form-control" placeholder="Nome*" type="text" required>
+                            </div>
+                            <div class="col-lg-3 form-group">
+                                <label for="Fornecedor.EmpresaId">Empresa*:</label>
+                                <select value="@ViewBag.Fornecedor.EmpresaId" name="Fornecedor.EmpresaId" id="empresa.Fornecedor" class="form-control" placeholder="Empresa*" required>
+                                    <option value=""></option>
+                                    @foreach (var empresa in ViewBag.Empresas)
+                                    {
+                                        <option value="@empresa.Id" selected="@empresa.Id.Equals(ViewBag.Fornecedor.EmpresaId)">@empresa.NomeFantasia</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="col-lg-3 form-group" id="divRg">
+                                <label for="Fornecedor.Rg">Rg*:</label>
+                                <input value="@ViewBag.Fornecedor.Rg" name="Fornecedor.Rg" id="rg.Fornecedor" class="form-control" placeholder="Rg*" type="text">
+                            </div>
+                            <div class="col-lg-3 form-group" id="divDN">
+                                <label for="Fornecedor.DataNascimento">Data Nascimento*:</label>
+                                <input value="@ViewBag.Fornecedor.DataNascimentoBR" name="fornecedor.DataNascimento" type="text" id="dataNascimento.Fornecedor" class="form-control" maxlength="10" pattern="[0-9]{2}\/[0-9]{2}\/[0-9]{4}$" placeholder="Data de Nascimento*" OnKeyPress="formatar('##/##/####', this)">
+                            </div>
+
+                            <input value="@ViewBag.Fornecedor.Status" name="Fornecedor.Status" id="statusFornecedor" type="hidden" />
+                            <input value="@ViewBag.Fornecedor.DataHoraCadastro" name="Fornecedor.DataHoraCadastro" id="dataHoraCadastroFornecedor" type="hidden" />
+                            <input value="@ViewBag.Fornecedor.UsuarioCadastroId" name="Fornecedor.UsuarioCadastroId" id="usuarioCadastroIdFornecedor" type="hidden" />
+                        </div>
+                        <div class="modal-footer">
+                            <input type="hidden" name="fornecedor.Id" id="inputId" value="" />
+                            <input type="hidden" name="fornecedor.UsuarioEdicaoId" id="usuarioEdicaoId.Fornecedor" value="" />
+                            <input class="btn btn-success" id="botaoCadastrarFornecedor" type="submit" value="Salvar" />
+                            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="tab-pane" id="telefonePanel" role="tabpanel">
+                    <input type="hidden" id="fornId" value=0>
+                    <div class="row">
+                        <form action="/Telefones/Adiciona" method="post" id="adicionarTelefone">
+
+                            <label for="Telefone.Numero">Telefone*:</label>
+                            <input name="Telefone.Numero" id="numeroTelefone" onkeypress="chamadaMascara(this, numero);" onblur="validarTelefone(this)" maxlength="14" class="form-control" placeholder="Telefone*" type="text">
+
+                            <div class="modal-footer">
+                                <input type="hidden" name="telefone.Id" id="inputTelefoneId" value=0 />
+                                <input class="btn btn-success" id="botaoAdicionarTelefone" type="button" onclick="novoTelefone()" value="Adicionar" />
+                            </div>
+                        </form>
+                        <div class="col-md-push-3 form-group">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="tabelaTelefones" width="600" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>Id</th>
+                                            <th>Numeros</th>
+                                            <th>Ação</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                                <div class="modal fade" id="excluirTelefone" data-keyboard="false" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" id="botaoCancelarCadastroTelefone" data-dismiss="modal" type="button"> Fechar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="~/Content/js/filtro-tabela-telefones.js"></script>
+</div>

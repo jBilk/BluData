@@ -1,0 +1,22 @@
+﻿@model ContatosVirtual.Models.Fornecedor
+@{
+    var usuarioLogado = (int)Session["id"];
+    Layout = null;
+}
+
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Desativar Fornecedor!</h5>
+        </div>
+        <form action="/Fornecedores/DesativarConcluido" method="post">
+            <div class="modal-body">Você deseja mesmo desativar esse fornecedor?</div>
+            <div class="modal-footer">
+                <input type="hidden" name="fornecedor.Id" id="inputId" value="" />
+                <input type="hidden" name="fornecedor.UsuarioEdicaoId" id="usuarioEdicaoIdFornecedor" value="@usuarioLogado" />
+                <input class="btn btn-danger" type="submit" value="Desativar" />
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+            </div>
+        </form>
+    </div>
+</div>

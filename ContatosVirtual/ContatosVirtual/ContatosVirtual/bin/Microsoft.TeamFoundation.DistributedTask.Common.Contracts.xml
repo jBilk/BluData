@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Microsoft.TeamFoundation.DistributedTask.Common.Contracts</name>
+    </assembly>
+    <members>
+        <member name="P:Microsoft.TeamFoundation.DistributedTask.Common.Contracts.TaskInputValidation.Expression">
+            <summary>
+            Conditional expression
+            </summary>
+        </member>
+        <member name="P:Microsoft.TeamFoundation.DistributedTask.Common.Contracts.TaskInputValidation.Message">
+            <summary>
+            Message explaining how user can correct if validation fails
+            </summary>
+        </member>
+    </members>
+</doc>

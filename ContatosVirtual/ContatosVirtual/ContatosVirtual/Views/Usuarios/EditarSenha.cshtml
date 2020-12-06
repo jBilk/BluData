@@ -1,0 +1,32 @@
+﻿@model ContatosVirtual.Models.Usuario
+@{
+    var usuarioLogado = (int)Session["id"];
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+}
+<title>Contatos Virtual - Nova Senha</title>
+<div class="container">
+    <div class="card card-login mx-auto mt-5">
+        <div class="card-header">Alterar Senha!</div>
+        <div class="card-body">
+            <div class="form-group">
+                <label for="nomeUsuario">Confirme seu email:</label>
+                <input type="email" name="nomeUsuario" id="nomeUsuario" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <label for="senha">Digite uma senha nova:</label>
+                <input type="password" name="usuario.Senha" id="senha" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <label for="confirmeSenha">Corfirme a senha:</label>
+                <input type="password" name="confirmeSenha" id="confirmeSenha" class="form-control" required />
+            </div>
+            <input type="hidden" name="usuario.UsuarioEdicaoId" id="usuarioEdicaoId.Usuario" value="@usuarioLogado" />
+            <input type="hidden" name="usuario.Id" id="inputId" value="@ViewBag.Usuario.Id" />
+            <input type="hidden" name="usuario.DataHoraCadastro" id="dataHoraCadastroUsuario" value="@ViewBag.Usuario.DataHoraCadastro" />
+            <input type="hidden" name="usuario.UsuarioCadastroId" id="usuarioCadastroId.usuario" value="@ViewBag.Usuario.UsuarioCadastroId" />
+            <input type="hidden" name="usuario.Status" id="statusUsuario" value="@ViewBag.Usuario.Status" />
+            <input type="hidden" name="Email" id="usuarioEmail" value="@ViewBag.Usuario.Email" />
+            <button class="btn btn-primary btn-block" id="botaoEditarSenha" onclick="editarSenha()">Salvar</button>
+        </div>
+    </div>
+</div>

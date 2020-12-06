@@ -1,0 +1,44 @@
+﻿@model ContatosVirtual.Models.Usuario
+@{
+    var usuarioLogado = (int)Session["id"];
+    Layout = null;
+}
+
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Editar Usuário!</h5>
+        </div>
+        <form action="/Usuarios/Editar" method="post">
+            <div class="col-md-10">
+                <label for="nome.Usuario">*Nome Completo:</label>
+                <input value="@ViewBag.Usuario.Nome" id="nomeUsuario" name="usuario.Nome" onkeypress="chamadaMascara(this, semNumeros);" onblur="verificarNomeMascara(this)" class="form-control" onblur="verificarNomeMascara(this)" placeholder="Nome Completo*" required />
+            </div>
+            <div class="col-md-10">
+                <label for="nomeUsuario.Usuario">*Usuário:</label>
+                <input value="@ViewBag.Usuario.NomeUsuario" id="nomeUsuarioUsuario" onkeypress="chamadaMascara(this, semEspaco);" name="usuario.NomeUsuario" class="form-control" placeholder="Usuário*" required />
+            </div>
+            <div class="col-md-10">
+                <label for="email.Usuario">*Email:</label>
+                <input value="@ViewBag.Usuario.Email" id="emailUsuario" name="usuario.Email" class="form-control" placeholder="Email*" type="email" required />
+            </div>
+            <div class="col-lg-10 form-group">
+                <label for="usuario.Permissao">*Permissão:</label>
+                <select id="permissao.Usuario" name="usuario.Permissao" class="form-control" placeholder="Permissão*" required>
+                    <option value="Administrador" @(ViewBag.Usuario.Permissao == "Administrador" ? "selected=\"selected\"" : "")>Administrador</option>
+                    <option value="Usuario" @(ViewBag.Usuario.Permissao == "Usuario" ? "selected=\"selected\"" : "")>Usuario</option>
+                </select>
+            </div>
+            <div class="modal-footer">
+                <input type="hidden" name="usuario.UsuarioEdicaoId" id="usuarioEdicaoIdUsuario" value="@usuarioLogado" />
+                <input type="hidden" name="usuario.DataHoraCadastro" id="dataHoraCadastroUsuario" value="@ViewBag.Usuario.DataHoraCadastro" />
+                <input type="hidden" name="usuario.UsuarioCadastroId" id="usuarioCadastroIdUsuario" value="@ViewBag.Usuario.UsuarioCadastroId" />
+                <input type="hidden" name="usuario.Id" id="inputId" value="@ViewBag.Usuario.Id" />
+                <input type="hidden" name="usuario.Status" id="statusUsuario" value="@ViewBag.Usuario.Status" />
+                <input type="hidden" name="usuario.Senha" id="senhaUsuario" value="@ViewBag.Usuario.Senha" />
+                <input class="btn btn-success" type="submit" value="Salvar" />
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+            </div>
+        </form>
+    </div>
+</div>

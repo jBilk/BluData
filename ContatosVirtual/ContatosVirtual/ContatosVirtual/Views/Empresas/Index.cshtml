@@ -1,0 +1,58 @@
+﻿<title>Contatos Virtual - Empresas</title>
+<div class="content-wrapper">
+    <div class="container-fluid">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="Home">Inicial</a>
+            </li>
+            <li class="breadcrumb-item active">Empresas</li>
+        </ol>
+        <p>
+            <button class="btn btn-success" id="nova-empresa">
+                <i class="fa fa-plus fa-lg"></i> Adicionar Empresa
+            </button>
+        </p>
+    </div>
+    <div class="modal fade mx-auto" id="adicionarEmpresa" data-keyboard="false" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+    </div>
+    <div class="card mb-3">
+        <div class="card-header">
+            <i class="fa fa-bank"></i> Empresas
+            <span class="btn-group botoes" data-toggle="buttons-radio">
+                <button class="btn btn-success ativada">Ativada</button>
+                <button class="btn btn-danger desativada">Desativada</button>
+                <input type="hidden" id="empresaStatus" value="Ativada">
+            </span>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="tabelaEmpresas" width="1000" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Código</th>
+                            <th>Nome Fantasia</th>
+                            <th>CNPJ</th>
+                            <th>UF</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="modal fade" id="editarEmpresa" data-keyboard="false" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+        </div>
+        <div class="modal fade" id="visualizarEmpresa" data-keyboard="false" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+        </div>
+        <div class="modal fade" id="ativarEmpresa" data-keyboard="false" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+        </div>
+        <div class="modal fade" id="desativarEmpresa" data-keyboard="false" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+        </div>
+    </div>
+</div>
