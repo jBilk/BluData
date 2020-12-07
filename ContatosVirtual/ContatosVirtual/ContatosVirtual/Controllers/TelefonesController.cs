@@ -11,11 +11,16 @@ namespace ContatosVirtual.Controllers
     [AutorizacaoFilter]
     public class TelefonesController : Controller
     {
-        private readonly ITelefones _telefones;
+        private readonly ITelefone _telefones;
 
-        public TelefonesController(ITelefones telefones)
+        public TelefonesController(ITelefone telefones)
         {
             _telefones = telefones;
+        }
+
+        public ActionResult Excluir(int id)
+        {
+            return View();
         }
 
         [HttpPost]
@@ -39,6 +44,22 @@ namespace ContatosVirtual.Controllers
             return Json("/Telefones");
         }
 
+        [HttpPost]
+        public ActionResult ExcluirConcluido(int id)
+        {
+            try
+            {
+                var telefone = _telefones.BuscaPorId(id);
+                _telefones.Excluir(telefone);
+            }
+            catch (Exception)
+            {
+                return Json("erro");
+            }
+            return Json("");
+        }
+
+        [HttpPost]
         public ActionResult ListaTelefonesPorFornecedorComFiltro(string fornecedorId, string pesquisa, int start = 0, int length = 0, int draw = 0)
         {
             IList<Telefone> telefones = _telefones.ListaComFiltro(fornecedorId, pesquisa, start, length);
@@ -64,26 +85,6 @@ namespace ContatosVirtual.Controllers
             {
                 return Json("error");
             }
-        }
-
-        public ActionResult Excluir(int id)
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult ExcluirConcluido(int id)
-        {
-            try
-            {
-                var telefone = _telefones.BuscaPorId(id);
-                _telefones.Excluir(telefone);
-            }
-            catch (Exception)
-            {
-                return Json("erro");
-            }
-            return Json("");
         }
     }
 }

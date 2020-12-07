@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ContatosVirtual.Interfaces
 {
-    public interface IEstados
+    public interface IEstado
     {
         IList<Estado> Lista();
         Estado BuscaPorId(int id);

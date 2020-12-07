@@ -2,6 +2,7 @@
 using ContatosVirtual.Filtros;
 using ContatosVirtual.Interfaces;
 using ContatosVirtual.Models;
+using ContatosVirtual.Servicos;
 using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
@@ -10,16 +11,18 @@ namespace ContatosVirtual.Controllers
 {
     public class UsuariosController : Controller
     {
-        private readonly IUsuarios _usuarios;
-        private readonly IEmail _email1;
-        private readonly ICodificadorSenhas _codificadorSenhas;
+        private readonly IUsuario _usuarios;
+        private readonly EmailServicos _emailServicos;
+        private readonly UsuarioServicos _usuarioServicos;
+        private readonly CodificadorSenhaServicos _codificadorSenhas;
         private readonly IGerarSenhaCriptografada _gerarSenhaCriptografada;
 
-        public UsuariosController(IUsuarios usuario, IEmail email, ICodificadorSenhas codificadorSenhas, 
-                                    IGerarSenhaCriptografada gerarSenhaCriptografada)
+        public UsuariosController(IUsuario usuario, EmailServicos emailServicos, UsuarioServicos usuarioServicos,
+                                  CodificadorSenhaServicos codificadorSenhas, IGerarSenhaCriptografada gerarSenhaCriptografada)
         {
             _usuarios = usuario;
-            _email1 = email;
+            _emailServicos = emailServicos;
+            _usuarioServicos = usuarioServicos;
             _codificadorSenhas = codificadorSenhas;
             _gerarSenhaCriptografada = gerarSenhaCriptografada;
         }
@@ -43,31 +46,19 @@ namespace ContatosVirtual.Controllers
             return View();
         }
 
-        [HttpPost]
         [AutorizacaoFiltro]
-        public ActionResult Adiciona(Usuario usuario)
+        public ActionResult Editar(int id)
         {
-            try
-            {
-                if (NomeUsuarioJahExiste(usuario.Id, usuario.NomeUsuario.ToString()))
-                    return Json("nomeUsuario");
+            ViewBag.Usuario = _usuarios.BuscaPorId(id); ;
+            return View();
+        }
 
-                if (EmailJahExiste(usuario.Id, usuario.Email.ToString()))
-                    return Json("emailUsuario");
-
-                var senhaCriptografada = _gerarSenhaCriptografada.GerarSenhaCriptografada();
-                _email1.ProcessoDeEnvioDeEmailNovoUsuario(usuario, senhaCriptografada);
-                usuario.Senha = _codificadorSenhas.HashValue(senhaCriptografada);
-                usuario.Status = EnumStatusUsuario.StatusAtivado.ToString();
-                usuario.DataHoraCadastro = DateTime.Now;
-                _usuarios.Adicionar(usuario);
-            }
-            catch (Exception)
-            {
-                return Json("erro");
-            }
-
-            return Json("/Usuarios");
+        [AutorizacaoFilter]
+        public ActionResult Perfil()
+        {
+            var id = (int)Session["id"];
+            ViewBag.Usuario = _usuarios.BuscaPorId(id);
+            return View();
         }
 
         [AutorizacaoFiltro]
@@ -84,90 +75,29 @@ namespace ContatosVirtual.Controllers
 
         [HttpPost]
         [AutorizacaoFiltro]
-        public ActionResult AtivarConcluido(int id, int usuarioLogado)
+        public ActionResult Adiciona(Usuario usuario)
         {
             try
             {
-                var usuario = _usuarios.BuscaPorId(id);
-                usuario.Status = EnumStatusUsuario.StatusAtivado.ToString();
-                usuario.UsuarioEdicaoId = usuarioLogado;
-                usuario.DataHoraEdicao = DateTime.Now;
-                _usuarios.AlterarStatus(usuario);
-            }
-            catch (Exception)
-            {
-                return Json("erro");
-            }
-
-            return Json("/Usuarios");
-        }
-
-        [HttpPost]
-        [AutorizacaoFiltro]
-        public ActionResult DesativarConcluido(int id, int usuarioLogado)
-        {
-            try
-            {
-                var usuario = _usuarios.BuscaPorId(id);
-                usuario.Status = EnumStatusUsuario.StatusDesativado.ToString();
-                usuario.UsuarioEdicaoId = usuarioLogado;
-                usuario.DataHoraEdicao = DateTime.Now;
-                _usuarios.AlterarStatus(usuario);
-            }
-            catch (Exception)
-            {
-                return Json("erro");
-            }
-            return Json("/Usuarios");
-        }
-
-        [AutorizacaoFiltro]
-        public ActionResult Editar(int id)
-        {
-            ViewBag.Usuario = _usuarios.BuscaPorId(id); ;
-            return View();
-        }
-
-        [HttpPost]
-        [AutorizacaoFilter]
-        public ActionResult EditarSalvar(Usuario usuario)
-        {
-            try
-            {
-                usuario.DataHoraEdicao = DateTime.Now;
-                _usuarios.Editar(usuario);
-            }
-            catch (Exception)
-            {
-                return Json("erro");
-            }
-            return Json(new { usuario = usuario });
-        }
-
-        [HttpPost]
-        [AutorizacaoFilter]
-        public ActionResult EditarPerfilSalvar(Usuario usuario)
-        {
-            try
-            {
-                if (NomeUsuarioJahExiste(usuario.Id, usuario.NomeUsuario.ToString()))
+                if (_usuarioServicos.NomeUsuarioJahExiste(usuario.Id, usuario.NomeUsuario.ToString()))
                     return Json("nomeUsuario");
 
-                if (EmailJahExiste(usuario.Id, usuario.Email.ToString()))
+                if (_usuarioServicos.EmailJahExiste(usuario.Id, usuario.Email.ToString()))
                     return Json("emailUsuario");
 
-                if (usuario.Senha.Length < 4 || usuario.Senha.Length > 10)
-                    return Json("senhaCara");
-
-                usuario.Senha = _codificadorSenhas.HashValue(usuario.Senha.ToString());
-                usuario.DataHoraEdicao = DateTime.Now;
-                _usuarios.Editar(usuario);
+                var senhaCriptografada = _gerarSenhaCriptografada.GerarSenhaCriptografada();
+                _emailServicos.ProcessoDeEnvioDeEmailNovoUsuario(usuario, senhaCriptografada);
+                usuario.Senha = _codificadorSenhas.HashValue(senhaCriptografada);
+                usuario.Status = EnumStatusUsuario.StatusAtivado.ToString();
+                usuario.DataHoraCadastro = DateTime.Now;
+                _usuarios.Adicionar(usuario);
             }
             catch (Exception)
             {
                 return Json("erro");
             }
-            return Json("/Login/Sair");
+
+            return Json("/Usuarios");
         }
 
         [HttpPost]
@@ -192,32 +122,88 @@ namespace ContatosVirtual.Controllers
             return Json("/Home");
         }
 
-        public bool NomeUsuarioJahExiste(int id, string nomeUsuario)
+        [HttpPost]
+        [AutorizacaoFilter]
+        public ActionResult EditarPerfilSalvar(Usuario usuario)
         {
-            bool ehIgualRegistroAtual = id == 0 ? false : _usuarios.BuscaPorId(id).NomeUsuario.ToString().Equals(nomeUsuario);
+            try
+            {
+                if (_usuarioServicos.NomeUsuarioJahExiste(usuario.Id, usuario.NomeUsuario.ToString()))
+                    return Json("nomeUsuario");
 
-            if (ehIgualRegistroAtual)
-                return false;
+                if (_usuarioServicos.EmailJahExiste(usuario.Id, usuario.Email.ToString()))
+                    return Json("emailUsuario");
 
-            if (_usuarios.BuscarNomeUsuario(nomeUsuario) != null)
-                return true;
+                if (usuario.Senha.Length < 4 || usuario.Senha.Length > 10)
+                    return Json("senhaCara");
 
-            return false;
+                usuario.Senha = _codificadorSenhas.HashValue(usuario.Senha.ToString());
+                usuario.DataHoraEdicao = DateTime.Now;
+                _usuarios.Editar(usuario);
+            }
+            catch (Exception)
+            {
+                return Json("erro");
+            }
+            return Json("/Login/Sair");
         }
 
-        public bool EmailJahExiste(int id, string email)
+        [HttpPost]
+        [AutorizacaoFilter]
+        public ActionResult EditarSalvar(Usuario usuario)
         {
-            bool ehIgualRegistroAtual = id == 0 ? false : _usuarios.BuscaPorId(id).Email.ToString().Equals(email);
-
-            if (ehIgualRegistroAtual)
-                return false;
-
-            if (_usuarios.BuscaPorEmail(email) != null)
-                return true;
-
-            return false;
+            try
+            {
+                usuario.DataHoraEdicao = DateTime.Now;
+                _usuarios.Editar(usuario);
+            }
+            catch (Exception)
+            {
+                return Json("erro");
+            }
+            return Json(new { usuario = usuario });
         }
 
+        [HttpPost]
+        [AutorizacaoFiltro]
+        public ActionResult AtivarConcluido(Usuario usuario)
+        {
+            try
+            {
+                var user = _usuarios.BuscaPorId(usuario.Id);
+                user.Status = EnumStatusUsuario.StatusAtivado.ToString();
+                user.UsuarioEdicaoId = usuario.UsuarioEdicaoId;
+                user.DataHoraEdicao = DateTime.Now;
+                _usuarios.AlterarStatus(user);
+            }
+            catch (Exception)
+            {
+                return Json("erro");
+            }
+
+            return Json("/Usuarios");
+        }
+
+        [HttpPost]
+        [AutorizacaoFiltro]
+        public ActionResult DesativarConcluido(Usuario usuario)
+        {
+            try
+            {
+                var user = _usuarios.BuscaPorId(usuario.Id);
+                user.Status = EnumStatusUsuario.StatusDesativado.ToString();
+                user.UsuarioEdicaoId = usuario.UsuarioEdicaoId;
+                user.DataHoraEdicao = DateTime.Now;
+                _usuarios.AlterarStatus(user);
+            }
+            catch (Exception)
+            {
+                return Json("erro");
+            }
+            return Json("/Usuarios");
+        }
+
+        [HttpPost]
         public ActionResult Filtro(string status, string pesquisa, int start = 0, int length = 0, int draw = 0)
         {
             var userLogado = (int)Session["id"];
@@ -231,14 +217,6 @@ namespace ContatosVirtual.Controllers
                 recordsFiltered = quantidadeFiltrada,
                 data = usuarios
             });
-        }
-
-        [AutorizacaoFilter]
-        public ActionResult Perfil()
-        {
-            var id = (int)Session["id"];
-            ViewBag.Usuario = _usuarios.BuscaPorId(id);
-            return View();
         }
     }
 }

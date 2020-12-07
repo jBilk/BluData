@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ContatosVirtual.Interfaces
 {
-    public interface IFornecedores
+    public interface IFornecedor
     {
         void Adicionar(Fornecedor fornecedor);
         Fornecedor BuscaPorId(int id);

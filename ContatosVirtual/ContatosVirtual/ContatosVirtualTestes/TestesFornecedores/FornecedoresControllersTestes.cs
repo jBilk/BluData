@@ -3,6 +3,7 @@ using ContatosVirtual.Controllers;
 using ContatosVirtual.Enum;
 using ContatosVirtual.Interfaces;
 using ContatosVirtual.Models;
+using ContatosVirtual.Servicos;
 using ContatosVirtualTestes.TestesEmpresas;
 using ContatosVirtualTestes.TestesEstados;
 using Newtonsoft.Json;
@@ -18,18 +19,20 @@ namespace ContatosVirtualTestes.TestesLogins
         private readonly FornecedoresController _fornecedoresController;
         private readonly EmpresasController _empresasController;
         private readonly EstadosController _estadosController;
-        private readonly IFornecedores _fornecedores;
-        private readonly IEmpresas _empresas;
-        private readonly IEstados _estados;
+        private readonly FornecedorServicos _fornecedorServicos;
+        private readonly IFornecedor _fornecedores;
+        private readonly IEmpresa _empresas;
+        private readonly IEstado _estados;
 
         public FornecedoresControllersTestes()
         {
             _fornecedores = new FornecedoresFake();
             _estados = new EstadosFake();
             _empresas = new EmpresasFake();
+            _fornecedorServicos = new FornecedorServicos(_empresas, _estados);
             _estadosController = new EstadosController(_estados);
             _empresasController = new EmpresasController(_empresas, _estados);
-            _fornecedoresController = new FornecedoresController(_fornecedores, _empresas, _estados);
+            _fornecedoresController = new FornecedoresController(_fornecedores, _fornecedorServicos, _empresas, _estados);
         }
 
         [Fact]

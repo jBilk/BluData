@@ -11,10 +11,10 @@ namespace ContatosVirtual.Controllers
     [AutorizacaoFilter]
     public class EmpresasController : Controller
     {
-        private readonly IEmpresas _empresas;
-        private readonly IEstados _estados;
+        private readonly IEmpresa _empresas;
+        private readonly IEstado _estados;
 
-        public EmpresasController(IEmpresas empresas, IEstados estados)
+        public EmpresasController(IEmpresa empresas, IEstado estados)
         {
             _empresas = empresas;
             _estados = estados;
@@ -32,10 +32,27 @@ namespace ContatosVirtual.Controllers
             return View();
         }
 
+        public ActionResult Editar(int id)
+        {
+            ViewBag.Estados = _estados.Lista();
+            ViewBag.Empresa = _empresas.BuscaPorId(id);
+            return View();
+        }
+
         public ActionResult Visualizar(int id)
         {
             ViewBag.Estados = _estados.Lista();
             ViewBag.Empresa = _empresas.BuscaPorId(id);
+            return View();
+        }
+
+        public ActionResult Ativar(int id)
+        {
+            return View();
+        }
+
+        public ActionResult Desativar(int id)
+        {
             return View();
         }
 
@@ -56,14 +73,20 @@ namespace ContatosVirtual.Controllers
             return Json("/Empresas");
         }
 
-        public ActionResult Ativar(int id)
+        [HttpPost]
+        public ActionResult EditarSalvar(Empresa empresa)
         {
-            return View();
-        }
-
-        public ActionResult Desativar(int id)
-        {
-            return View();
+            try
+            {
+                empresa.EstadoId = _estados.BuscarPorSigla(empresa.EstadoSigla.ToString());
+                empresa.DataHoraEdicao = DateTime.Now;
+                _empresas.Editar(empresa);
+            }
+            catch (Exception)
+            {
+                return Json("erro");
+            }
+            return Json(new { empresa = empresa });
         }
 
         [HttpPost]
@@ -102,29 +125,6 @@ namespace ContatosVirtual.Controllers
             return Json("/Empresas");
         }
 
-        public ActionResult Editar(int id)
-        {
-            ViewBag.Estados = _estados.Lista();
-            ViewBag.Empresa = _empresas.BuscaPorId(id);
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult EditarSalvar(Empresa empresa)
-        {
-            try
-            {
-                empresa.EstadoId = _estados.BuscarPorSigla(empresa.EstadoSigla.ToString());
-                empresa.DataHoraEdicao = DateTime.Now;
-                _empresas.Editar(empresa);
-            }
-            catch (Exception)
-            {
-                return Json("erro");
-            }
-            return Json(new { empresa = empresa });
-        }
-
         [HttpPost]
         public ActionResult BuscaPorCnpj(int id, string cnpj)
         {
@@ -140,6 +140,7 @@ namespace ContatosVirtual.Controllers
             return Json("");
         }
 
+        [HttpPost]
         public ActionResult Filtro(string status, string pesquisa, int start = 0, int length = 0, int draw = 0)
         {
             IList<Empresa> empresas = _empresas.ListaComFiltro(status, pesquisa, start, length);

@@ -1,6 +1,7 @@
 ﻿using ContatosVirtual.Controllers;
 using ContatosVirtual.DAO;
 using ContatosVirtual.Interfaces;
+using ContatosVirtual.Servicos;
 using Microsoft.Web.Infrastructure.DynamicModuleHelper;
 using Ninject;
 using Ninject.Web.Common;
@@ -22,8 +23,6 @@ namespace ContatosVirtual.App_Start
             DynamicModuleUtility.RegisterModule(typeof(OnePerRequestHttpModule));
             DynamicModuleUtility.RegisterModule(typeof(NinjectHttpModule));
             bootstrapper.Initialize(CreateKernel);
-
-
         }
 
         public static void Stop()
@@ -50,15 +49,15 @@ namespace ContatosVirtual.App_Start
 
         private static void RegisterServices(IKernel kernel)
         {
-            kernel.Bind<ICodificadorSenhas>().To<CodificadorSenhasController>();
-            kernel.Bind<IEmail>().To<EmailController>();
-            kernel.Bind<IGerarSenhaCriptografada>().To<SenhasCriptogafadasController>();
+            kernel.Bind<IGerarSenhaCriptografada>().To<SenhaCriptografadaServicos>();
+            kernel.Bind<ICodificadorSenha>().To<CodificadorSenhaServicos>();
+            kernel.Bind<IEmail>().To<EmailServicos>();
 
-            kernel.Bind<IEmpresas>().To<EmpresasDAO>();
-            kernel.Bind<IEstados>().To<EstadosDAO>();
-            kernel.Bind<IFornecedores>().To<FornecedoresDAO>();
-            kernel.Bind<ITelefones>().To<TelefonesDAO>();
-            kernel.Bind<IUsuarios>().To<UsuariosDAO>();
+            kernel.Bind<IEmpresa>().To<EmpresasDAO>();
+            kernel.Bind<IEstado>().To<EstadosDAO>();
+            kernel.Bind<IFornecedor>().To<FornecedoresDAO>();
+            kernel.Bind<ITelefone>().To<TelefonesDAO>();
+            kernel.Bind<IUsuario>().To<UsuariosDAO>();
         }
     }
 }

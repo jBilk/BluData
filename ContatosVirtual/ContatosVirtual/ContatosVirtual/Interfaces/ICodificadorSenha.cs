@@ -1,6 +1,6 @@
 ﻿namespace ContatosVirtual.Interfaces
 {
-    public interface ICodificadorSenhas
+    public interface ICodificadorSenha
     {
         string HashValue(string senhaGerada);
     }

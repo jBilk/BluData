@@ -14,8 +14,8 @@ namespace ContatosVirtualTestes.TestesEmpresas
     {
         private readonly EmpresasController _empresasController;
         private readonly EstadosController _estadosController;
-        private readonly IEmpresas _empresas;
-        private readonly IEstados _estados;
+        private readonly IEmpresa _empresas;
+        private readonly IEstado _estados;
 
         public EmpresasControllerTestes()
         {

@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace ContatosVirtual.DAO
 {
-    public class UsuariosDAO : IUsuarios
+    public class UsuariosDAO : IUsuario
     {
         public void Adicionar(Usuario usuario)
         {

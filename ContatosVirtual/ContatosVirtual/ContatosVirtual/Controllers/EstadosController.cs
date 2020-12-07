@@ -7,9 +7,9 @@ namespace ContatosVirtual.Controllers
     [AutorizacaoFilter]
     public class EstadosController : Controller
     {
-        private readonly IEstados _estados;
+        private readonly IEstado _estados;
 
-        public EstadosController(IEstados estados)
+        public EstadosController(IEstado estados)
         {
             _estados = estados;
         }

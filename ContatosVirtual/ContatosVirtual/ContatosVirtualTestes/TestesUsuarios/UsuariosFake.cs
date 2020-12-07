@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace ContatosVirtualTestes
 {
-    public class UsuariosFake : IUsuarios
+    public class UsuariosFake : IUsuario
     {
         public void Adicionar(Usuario usuario)
         {

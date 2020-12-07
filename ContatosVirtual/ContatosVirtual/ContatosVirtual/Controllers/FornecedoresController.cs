@@ -1,8 +1,8 @@
-﻿using ContatosVirtual.Content.Enum;
-using ContatosVirtual.Enum;
+﻿using ContatosVirtual.Enum;
 using ContatosVirtual.Filtros;
 using ContatosVirtual.Interfaces;
 using ContatosVirtual.Models;
+using ContatosVirtual.Servicos;
 using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
@@ -12,13 +12,16 @@ namespace ContatosVirtual.Controllers
     [AutorizacaoFilter]
     public class FornecedoresController : Controller
     {
-        private readonly IFornecedores _fornecedores;
-        private readonly IEmpresas _empresas;
-        private readonly IEstados _estados;
+        private readonly IFornecedor _fornecedores;
+        private readonly FornecedorServicos _fornecedorServicos;
+        private readonly IEmpresa _empresas;
+        private readonly IEstado _estados;
 
-        public FornecedoresController(IFornecedores fornecedores, IEmpresas empresas, IEstados estados)
+        public FornecedoresController(IFornecedor fornecedores, FornecedorServicos fornecedorServicos, 
+                                      IEmpresa empresas, IEstado estados)
         {
             _fornecedores = fornecedores;
+            _fornecedorServicos = fornecedorServicos;
             _empresas = empresas;
             _estados = estados;
         }
@@ -36,12 +39,30 @@ namespace ContatosVirtual.Controllers
             return View();
         }
 
+        public ActionResult Editar(int id)
+        {
+            var fornecedor = _fornecedores.BuscaPorId(id);
+            ViewBag.Empresas = _empresas.ListaEmpresasAtivadaMaisEmoresaFornecedor(fornecedor.EmpresaId);
+            ViewBag.Fornecedor = fornecedor;
+            return View();
+        }
+
+        public ActionResult Ativar(int id)
+        {
+            return View();
+        }
+
+        public ActionResult Desativar(int id)
+        {
+            return View();
+        }
+
         [HttpPost]
         public ActionResult Adiciona(Fornecedor fornecedor)
         {
             try
             {
-                if (VerificarFornecedorPFMenorIdadeEmpresaParane(fornecedor))
+                if (_fornecedorServicos.VerificarFornecedorPFMenorIdadeEmpresaParane(fornecedor))
                     return Json("EhFornecedorPFMenorIdadeEmpresaParana");
 
                 fornecedor.DataHoraCadastro = DateTime.Now;
@@ -56,53 +77,23 @@ namespace ContatosVirtual.Controllers
             return Json("/Fornecedores");
         }
 
-        private bool VerificarFornecedorPFMenorIdadeEmpresaParane(Fornecedor fornecedor)
+        [HttpPost]
+        public ActionResult EditarSalvar(Fornecedor fornecedor)
         {
-            return fornecedor.PessoaJuridicaFisica.ToString().Equals(EnumTipoPessoa.PessoaFisica.ToString())
-                    && EhFornecedorPFMenorIdadeEmpresaParana(fornecedor.PessoaJuridicaFisica.ToString(), fornecedor.DataNascimento.GetValueOrDefault(), fornecedor.EmpresaId);
-        }
-
-        private bool EhFornecedorPFMenorIdadeEmpresaParana(string pessoaJuridicaFisica, DateTime dataNascimento, int? empresaId)
-        {
-            var idEstadoEmpresa = _empresas.BuscaPorId(empresaId.GetValueOrDefault()).EstadoId.GetValueOrDefault();
-            var ehDoParana = _estados.BuscaPorId(idEstadoEmpresa).NomeEstado.ToString().Equals(EnumEstados.EstadoParana.ToString());
-
-            if (ehDoParana && pessoaJuridicaFisica == EnumTipoPessoa.PessoaFisica.ToString())
+            try
             {
-                return EhMenorDeIdade(dataNascimento);
+                if (_fornecedorServicos.VerificarFornecedorPFMenorIdadeEmpresaParane(fornecedor))
+                    return Json("EhFornecedorPFMenorIdadeEmpresaParana");
+
+                fornecedor.DataHoraEdicao = DateTime.Now;
+                _fornecedores.Editar(fornecedor);
+            }
+            catch (Exception)
+            {
+                return Json("erro");
             }
 
-            return false;
-        }
-
-        private bool EhMenorDeIdade(DateTime dataNascimento)
-        {
-            var anos = DateTime.Now.Year - dataNascimento.Year;
-
-            if (anos < 18)
-                return true;
-            
-            if(anos == 18)
-            {
-                if (DateTime.Now.Month < dataNascimento.Month ||
-                   (DateTime.Now.Month == dataNascimento.Month &&
-                    DateTime.Now.Day < dataNascimento.Day))
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        public ActionResult Ativar(int id)
-        {
-            return View();
-        }
-
-        public ActionResult Desativar(int id)
-        {
-            return View();
+            return Json(new { fornecedor = fornecedor });
         }
 
         [HttpPost]
@@ -142,34 +133,7 @@ namespace ContatosVirtual.Controllers
 
             return Json("/Fornecedores");
         }
-
-        public ActionResult Editar(int id)
-        {
-            var fornecedor = _fornecedores.BuscaPorId(id);
-            ViewBag.Empresas = _empresas.ListaEmpresasAtivadaMaisEmoresaFornecedor(fornecedor.EmpresaId);
-            ViewBag.Fornecedor = fornecedor;
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult EditarSalvar(Fornecedor fornecedor)
-        {
-            try
-            {
-                if (VerificarFornecedorPFMenorIdadeEmpresaParane(fornecedor))
-                    return Json("EhFornecedorPFMenorIdadeEmpresaParana");
-
-                fornecedor.DataHoraEdicao = DateTime.Now;
-                _fornecedores.Editar(fornecedor);
-            }
-            catch (Exception)
-            {
-                return Json("erro");
-            }
-
-            return Json(new { fornecedor = fornecedor });
-        }
-
+        
         [HttpPost]
         public ActionResult VerificarPorCpfCnpjJahCadastrado(int id, string cpfCnpj)
         {
@@ -199,6 +163,7 @@ namespace ContatosVirtual.Controllers
             }
         }
 
+        [HttpPost]
         public ActionResult Filtro(string status, string pesquisa, int start = 0, int length = 0, int draw = 0)
         {
             IList<Fornecedor> fornecedores = _fornecedores.ListaComFiltro(status, pesquisa, start, length);

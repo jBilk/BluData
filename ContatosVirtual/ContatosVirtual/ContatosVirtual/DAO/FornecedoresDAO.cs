@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace ContatosVirtual.DAO
 {
-    public class FornecedoresDAO : IFornecedores
+    public class FornecedoresDAO : IFornecedor
     {
         public void Adicionar(Fornecedor fornecedor)
         {

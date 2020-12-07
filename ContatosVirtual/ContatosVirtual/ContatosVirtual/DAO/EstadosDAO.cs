@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace ContatosVirtual.DAO
 {
-    public class EstadosDAO : IEstados
+    public class EstadosDAO : IEstado
     {
         public IList<Estado> Lista()
         {

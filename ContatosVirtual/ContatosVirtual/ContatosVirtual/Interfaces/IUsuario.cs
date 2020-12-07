@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ContatosVirtual.Interfaces
 {
-    public interface IUsuarios
+    public interface IUsuario
     {
         void Adicionar(Usuario usuario);
         Usuario Busca(string login, string senha);

@@ -1,0 +1,92 @@
+
+# Criado por https://www.toptal.com/developers/gitignore/api/openframeworks+visualstudio
+# Edite em https://www.toptal.com/developers/gitignore?templates=openframeworks+visualstudio
+
+### OpenFrameworks + VisualStudio ###
+# ignorar binários gerados
+# mas não a pasta de dados
+
+/ bin / *
+! / bin / data /
+
+# geral
+
+[Bb] uild /
+[Oo] bj /
+* .o
+[Dd] ebug * /
+[Rr] elease * /
+*.modo*
+*.aplicativo/
+* .pyc
+.svn /
+*.registro
+
+# Arquivos IDE que devem
+# ser ignorado
+
+# XCode
+* .pbxuser
+*.perspectiva
+* .perspectivev3
+* .mode1v3
+* .mode2v3
+# XCode 4
+xcuserdata
+* .xcworkspace
+
+# Code :: Blocks
+*.depender
+* .layout
+
+# Estúdio visual
+* .sdf
+* .opensdf
+* .suo
+* .pdb
+* .ilk
+* .aps
+ipch /
+
+# Eclipse
+.metadata
+local.properties
+.externalToolBuilders
+
+# sistema operacional
+
+# Linux
+* ~
+# KDE
+.diretório
+.AppleDouble
+
+# OSX
+.DS_Store
+* .swp
+* ~ .nib
+# Miniaturas
+._ *
+
+# Janelas
+# Caches de arquivo de imagem
+Thumbs.db
+# Arquivo de configuração de pasta
+Desktop.ini
+
+# Android
+.csettings
+
+### OpenFrameworks + VisualStudio Patch ###
+.vs /
+* .ncb
+* .opendb
+* .cachefile
+* .VC.db
+* .VC.VC.opendb
+* .psess
+* .vsp
+* .vspx
+*.seiva
+
+# Fim de https://www.toptal.com/developers/gitignore/api/openframeworks+visualstudio

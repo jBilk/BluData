@@ -1,11 +1,10 @@
 ﻿using ContatosVirtual.Interfaces;
 using System;
 using System.Text;
-using System.Web.Mvc;
 
-namespace ContatosVirtual.Controllers
+namespace ContatosVirtual.Servicos
 {
-    public class SenhasCriptogafadasController : Controller, IGerarSenhaCriptografada
+    public class SenhaCriptografadaServicos : IGerarSenhaCriptografada
     {
         public string GerarSenhaCriptografada()
         {

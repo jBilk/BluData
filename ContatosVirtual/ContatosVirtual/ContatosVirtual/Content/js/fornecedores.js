@@ -130,8 +130,8 @@ function confirmarEdicaoFornecedor() {
                     open: 'animated bounceInTop',
                     close: 'animated bounceOutTop'
                 }).show();
-                $("#tabelaFornecedores").DataTable().ajax.reload();
                 fecharModal.modal("hide");
+                $("#tabelaFornecedores").DataTable().ajax.reload();
             }
         });
     });

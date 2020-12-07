@@ -3,6 +3,7 @@ using ContatosVirtual.Controllers;
 using ContatosVirtual.Enum;
 using ContatosVirtual.Interfaces;
 using ContatosVirtual.Models;
+using ContatosVirtual.Servicos;
 using Newtonsoft.Json;
 using System.Linq;
 using System.Web.Mvc;
@@ -13,18 +14,22 @@ namespace ContatosVirtualTestes.TestesUsuarios
     public class UsuariosControllerTestes
     {
         private readonly UsuariosController _usuariosController;
-        private readonly IUsuarios _usuarios;
-        private readonly IEmail _email;
-        private readonly ICodificadorSenhas _codificadorSenhas;
-        private readonly IGerarSenhaCriptografada _gerarSenhaCriptografada;
+        private readonly EmailController _email;
+        private readonly EmailServicos _emailServicos;
+        private readonly UsuarioServicos _usuarioServicos;
+        private readonly SenhaCriptografadaServicos _senhaCriptografadaServicos;
+        private readonly CodificadorSenhaServicos _codificadorSenhaServicos;
+        private readonly IUsuario _usuarios;
 
         public UsuariosControllerTestes()
         {
             _usuarios = new UsuariosFake();
-            _email = new EmailController(_usuarios);
-            _codificadorSenhas = new CodificadorSenhasController();
-            _gerarSenhaCriptografada = new SenhasCriptogafadasController();
-            _usuariosController = new UsuariosController(_usuarios, _email, _codificadorSenhas, _gerarSenhaCriptografada);
+            _emailServicos = new EmailServicos();
+            _codificadorSenhaServicos = new CodificadorSenhaServicos();
+            _email = new EmailController(_usuarios, _emailServicos);
+            _usuarioServicos = new UsuarioServicos(_usuarios);
+            _senhaCriptografadaServicos = new SenhaCriptografadaServicos();
+            _usuariosController = new UsuariosController(_usuarios, _emailServicos, _usuarioServicos, _codificadorSenhaServicos, _senhaCriptografadaServicos);
         }
 
         [Fact]
@@ -84,13 +89,14 @@ namespace ContatosVirtualTestes.TestesUsuarios
         [Fact]
         public void AlterarStatusUsuarioParaDesativado_PassandoDados_ResultadoOk()
         {
-            var usuarioTeste = 0;
+            Usuario usuarioTeste = null;
             using (var contexto = new ContatosVirtualContext())
             {
-                usuarioTeste = contexto.Usuarios.FirstOrDefault(u => u.Status == EnumStatusUsuario.StatusAtivado.ToString()).Id;
+                usuarioTeste = contexto.Usuarios.FirstOrDefault(u => u.Status == EnumStatusUsuario.StatusAtivado.ToString());
             }
+            usuarioTeste.UsuarioEdicaoId = usuarioTeste.Id;
 
-            var okResult = _usuariosController.DesativarConcluido(usuarioTeste, usuarioTeste);
+            var okResult = _usuariosController.DesativarConcluido(usuarioTeste);
             string output = JsonConvert.SerializeObject(okResult);
             var deserializedokResult = JsonConvert.DeserializeObject<JsonResult>(output);
 
@@ -101,13 +107,14 @@ namespace ContatosVirtualTestes.TestesUsuarios
         [Fact]
         public void AlterarStatusUsuarioParaAtivado_PassandoDados_ResultadoOk()
         {
-            var usuarioTeste = 0;
+            Usuario usuarioTeste = null;
             using (var contexto = new ContatosVirtualContext())
             {
-                usuarioTeste = contexto.Usuarios.FirstOrDefault(u => u.Status == EnumStatusUsuario.StatusDesativado.ToString()).Id;
+                usuarioTeste = contexto.Usuarios.FirstOrDefault(u => u.Status == EnumStatusUsuario.StatusDesativado.ToString());
             }
+            usuarioTeste.UsuarioEdicaoId = usuarioTeste.Id;
 
-            var okResult = _usuariosController.AtivarConcluido(usuarioTeste, usuarioTeste);
+            var okResult = _usuariosController.AtivarConcluido(usuarioTeste);
             string output = JsonConvert.SerializeObject(okResult);
             var deserializedokResult = JsonConvert.DeserializeObject<JsonResult>(output);
 

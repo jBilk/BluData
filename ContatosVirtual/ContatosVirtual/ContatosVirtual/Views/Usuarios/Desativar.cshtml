@@ -8,10 +8,10 @@
     <div class="modal-content">
         <div class="modal-header">
         </div>
-        <form action="/Usuarios/Desativar" method="post">
+        <form action="/Usuarios/DesativarConcluido" method="post">
             <div class="modal-body">Você deseja mesmo desativar esse usuário?</div>
             <div class="modal-footer">
-                <input type="hidden" name="id" id="inputId" />
+                <input type="hidden" name="usuario.Id" id="inputId" value="" />
                 <input type="hidden" name="usuario.UsuarioEdicaoId" id="usuarioEdicaoId.Usuario" value="@usuarioLogado" />
                 <input class="btn btn-danger" type="submit" value="Desativar" />
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>

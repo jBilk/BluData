@@ -6,10 +6,10 @@ namespace ContatosVirtual.Controllers
 {
     public class LoginController : Controller
     {
-        private readonly IUsuarios _usuarios;
-        private readonly ICodificadorSenhas _codificadorSenhas;
+        private readonly IUsuario _usuarios;
+        private readonly ICodificadorSenha _codificadorSenhas;
 
-        public LoginController(IUsuarios usuario, ICodificadorSenhas codificadorSenhas)
+        public LoginController(IUsuario usuario, ICodificadorSenha codificadorSenhas)
         {
             _usuarios = usuario;
             _codificadorSenhas = codificadorSenhas;
@@ -23,6 +23,13 @@ namespace ContatosVirtual.Controllers
         public ActionResult Senha()
         {
             return View();
+        }
+
+        public ActionResult Sair()
+        {
+            Session["usuarioLogado"] = null;
+
+            return RedirectToAction("Index", "Login");
         }
 
         [HttpPost]
@@ -48,13 +55,6 @@ namespace ContatosVirtual.Controllers
 
             return Json("erroUsuario");
 
-        }
-
-        public ActionResult Sair()
-        {
-            Session["usuarioLogado"] = null;
-
-            return RedirectToAction("Index", "Login");
         }
     }    
 }

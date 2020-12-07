@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace ContatosVirtualTestes.TestesEstados
 {
-    public class EstadosFake : IEstados
+    public class EstadosFake : IEstado
     {
         public IList<Estado> Lista()
         {

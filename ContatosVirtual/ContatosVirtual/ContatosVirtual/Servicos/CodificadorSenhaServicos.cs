@@ -2,11 +2,10 @@
 using System.Globalization;
 using System.Security.Cryptography;
 using System.Text;
-using System.Web.Mvc;
 
-namespace ContatosVirtual.Controllers
+namespace ContatosVirtual.Servicos
 {
-    public class CodificadorSenhasController : Controller, ICodificadorSenhas
+    public class CodificadorSenhaServicos : ICodificadorSenha
     {
         public string HashValue(string senhaGerada)
         {

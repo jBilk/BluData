@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ContatosVirtual.Interfaces
 {
-    public interface ITelefones
+    public interface ITelefone
     {
         void Adiciona(Telefone telefone);
         void Excluir(Telefone telefone);

@@ -9,11 +9,11 @@
         <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">Ativar Usuário!</h5>
         </div>
-        <form action="/Usuarios/Ativar" method="post">
+        <form action="/Usuarios/AtivarConcluido" method="post">
             <div class="modal-body">Você deseja mesmo ativar esse usuário?</div>
             <div class="modal-footer">
+                <input type="hidden" name="usuario.id" id="inputId" value=""/>
                 <input type="hidden" name="usuario.UsuarioEdicaoId" id="usuarioEdicaoId.Usuario" value="@usuarioLogado" />
-                <input type="hidden" name="id" id="inputId" />
                 <input class="btn btn-success" type="submit" value="Ativar" />
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
             </div>

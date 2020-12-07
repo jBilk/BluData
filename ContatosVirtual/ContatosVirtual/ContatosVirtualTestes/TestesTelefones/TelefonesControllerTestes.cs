@@ -12,7 +12,7 @@ namespace ContatosVirtualTestes.TestesTelefones
     public class TelefonesControllerTestes
     {
         private readonly TelefonesController _telefonesController;
-        private readonly ITelefones _telefones;
+        private readonly ITelefone _telefones;
 
         public TelefonesControllerTestes()
         {

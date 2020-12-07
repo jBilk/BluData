@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace ContatosVirtualTestes.TestesTelefones
 {
-    public class TelefonesFake : ITelefones
+    public class TelefonesFake : ITelefone
     {
         public void Adiciona(Telefone telefone)
         {
